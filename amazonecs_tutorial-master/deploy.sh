@@ -2,15 +2,15 @@
 
 REGION=ap-south-1b
 SERVICE_NAME=rehanrepoapp-service
-CLUSTER=rehanrepo-cluster
+CLUSTER=rehan-repo-cluster
 IMAGE_VERSION="v_"${BUILD_NUMBER}
-TASK_FAMILY="rehanrepo-app"
+TASK_FAMILY="rehan-repo-app"
 
 # Create a new task definition for this build
 
-sed -e "s;%BUILD_NUMBER%;${BUILD_NUMBER};g" ../rehan-repo-app.json >rehan-repo-app-v_${BUILD_NUMBER}.json
+sed -e "s;%BUILD_NUMBER%;${BUILD_NUMBER};g" ./rehan-repo-app.json >rehan-repo-app-v_${BUILD_NUMBER}.json
 
-aws ecs register-task-definition --family rehannoodle-app --cli-input-json file://rehan-repo-app-v_${BUILD_NUMBER}.json
+aws ecs register-task-definition --family rehan-repo-app --cli-input-json file://rehan-repo-app-v_${BUILD_NUMBER}.json
 
 # Update the service with the new task definition and desired count
 REVISION=`aws ecs describe-task-definition --task-definition rehan-repo-app | egrep "revision" | tr "/" " " | awk '{print $2}' | sed 's/"$//'`
