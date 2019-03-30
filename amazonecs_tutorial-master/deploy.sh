@@ -1,19 +1,19 @@
 #!/bin/bash
 
 REGION=ap-south-1b
-SERVICE_NAME=rehannoodle-app-service
-CLUSTER=rehannoodle-cluster
+SERVICE_NAME=rehanrepoapp-service
+CLUSTER=rehanrepo-cluster
 IMAGE_VERSION="v_"${BUILD_NUMBER}
-TASK_FAMILY="rehannoodle-app"
+TASK_FAMILY="rehanrepo-app"
 
 # Create a new task definition for this build
 
-sed -e "s;%BUILD_NUMBER%;${BUILD_NUMBER};g" ../rehannoodle-app.json >rehannoodle-app-v_${BUILD_NUMBER}.json
+sed -e "s;%BUILD_NUMBER%;${BUILD_NUMBER};g" ../rehan-repo-app.json >rehan-repo-app-v_${BUILD_NUMBER}.json
 
-aws ecs register-task-definition --family rehannoodle-app --cli-input-json file://rehannoodle-app-v_${BUILD_NUMBER}.json
+aws ecs register-task-definition --family rehannoodle-app --cli-input-json file://rehan-repo-app-v_${BUILD_NUMBER}.json
 
 # Update the service with the new task definition and desired count
-REVISION=`aws ecs describe-task-definition --task-definition rehannoodle-app | egrep "revision" | tr "/" " " | awk '{print $2}' | sed 's/"$//'`
+REVISION=`aws ecs describe-task-definition --task-definition rehan-repo-app | egrep "revision" | tr "/" " " | awk '{print $2}' | sed 's/"$//'`
 SERVICES=`aws ecs describe-services --services ${SERVICE_NAME} --cluster ${CLUSTER} --region ${REGION} | jq .failures[]`
 
 
